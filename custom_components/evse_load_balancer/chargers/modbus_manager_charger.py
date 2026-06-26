@@ -101,9 +101,12 @@ class ModbusManagerCharger(HaDevice, Charger):
         entries = registry.entities.get_entries_for_device_id(
             device.id, include_disabled_entities=True
         )
-        return ModbusManagerCharger._find_key_in_entries(
-            entries, CURRENT_LIMIT_KEYS, domain="number"
-        ) is not None
+        return (
+            ModbusManagerCharger._find_key_in_entries(
+                entries, CURRENT_LIMIT_KEYS, domain="number"
+            )
+            is not None
+        )
 
     @staticmethod
     def _find_key_in_entries(
