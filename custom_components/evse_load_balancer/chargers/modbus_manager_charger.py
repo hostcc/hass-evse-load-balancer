@@ -13,7 +13,8 @@ from .charger import Charger, PhaseMode
 
 _LOGGER = logging.getLogger(__name__)
 
-# Writable number entities used for load-balancing current (template unique_id suffixes).
+# Writable number entities used for load-balancing current (template unique_id
+# suffixes).
 CURRENT_LIMIT_KEYS: tuple[str, ...] = (
     "modbus_current_limit",  # EM2GO Home
     "max_current",  # Heidelberg Energy Control
@@ -85,7 +86,7 @@ class ModbusManagerCharger(HaDevice, Charger):
 
     @staticmethod
     def is_charger_device(device: DeviceEntry) -> bool:
-        """True for modbus_manager devices (use supports_device for EV capability)."""
+        """Check for modbus_manager devices (use supports_device for EV capability)."""
         return any(
             id_domain == CHARGER_DOMAIN_MODBUS_MANAGER
             for id_domain, _ in device.identifiers
@@ -93,7 +94,7 @@ class ModbusManagerCharger(HaDevice, Charger):
 
     @staticmethod
     def supports_device(hass: HomeAssistant, device: DeviceEntry) -> bool:
-        """True when the device exposes a writable current-limit number entity."""
+        """Check if the device exposes a writable current-limit number entity."""
         if not ModbusManagerCharger.is_charger_device(device):
             return False
         registry = er.async_get(hass)
