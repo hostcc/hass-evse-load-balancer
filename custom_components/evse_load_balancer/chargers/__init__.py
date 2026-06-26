@@ -11,6 +11,7 @@ from .charger import Charger
 from .easee_charger import EaseeCharger
 from .keba_charger import KebaCharger
 from .lektrico_charger import LektricoCharger
+from .modbus_manager_charger import ModbusManagerCharger
 from .zaptec_charger import ZaptecCharger
 
 if TYPE_CHECKING:
@@ -34,7 +35,12 @@ async def charger_factory(
         ZaptecCharger,
         KebaCharger,
         LektricoCharger,
+        ModbusManagerCharger,
     ]:
+        if charger_cls is ModbusManagerCharger:
+            if ModbusManagerCharger.supports_device(hass, device):
+                return ModbusManagerCharger(hass, config_entry, device)
+            continue
         if charger_cls.is_charger_device(device):
             return charger_cls(hass, config_entry, device)
 
